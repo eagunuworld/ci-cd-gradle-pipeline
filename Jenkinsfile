@@ -4,20 +4,6 @@ pipeline{
         VERSION = "${env.BUILD_ID}"
     }
     stages{
-        stage('Building') {
-            steps {
-                sh 'chmod +x gradlew'
-                sh "./gradlew build   |  tee output.log"
-                 }
-               }
-          stage('Monitoring the logs') {
-              steps {
-                  script {
-                          sh '! grep "Task" output.log'
-                  }
-              }
-         }
-
         stage("docker build & docker push"){
             steps{
                 script{
