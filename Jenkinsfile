@@ -14,33 +14,10 @@ pipeline{
                                 docker push  34.125.140.185:8085/springapp:${VERSION}
                                 docker rmi 34.125.140.185:8085/springapp:${VERSION}
                             '''
-                    }
-                }
+                       }
+                   }
+               }
             }
-        }
-        stage('indentifying misconfigs using datree in helm charts'){
-            steps{
-                script{
-
-                    dir('kubernetes/') {
-                        withEnv(['DATREE_TOKEN=GJdx2cP2TCDyUY3EhQKgTc']) {
-                              sh 'helm datree test myapp/'
-                        }
-                    }
-                }
-            }
-            stage('indentifying misconfigs using datree in helm charts'){
-                steps{
-                    script{
-
-                        dir('kubernetes/') {
-                          sh 'helm datree test myapp/'
-                        }
-                    }
-                }
-            }
-            
-         }
       }
 
     post {
