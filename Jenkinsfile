@@ -4,6 +4,20 @@ pipeline{
         VERSION = "${env.BUILD_ID}"
     }
     stages{
+        stage('Building') {
+            steps {
+                sh 'chmod +x gradlew'
+                sh "./gradlew build   |  tee output.log"
+                 }
+               }
+          stage('Monitoring the logs') {
+              steps {
+                  script {
+                          sh '! grep "Task" output.log'
+                  }
+              }
+         }
+
         stage("docker build & docker push"){
             steps{
                 script{
@@ -18,19 +32,6 @@ pipeline{
                    }
                }
             }
-
-            stage('indentifying misconfigs using datree in helm charts'){
-                steps{
-                    script{
-
-                        dir('kubernetes/') {
-                          sh 'helm datree test myapp/'
-                        }
-                    }
-                }
-            }
-
-      }
 
     post {
 		always {
