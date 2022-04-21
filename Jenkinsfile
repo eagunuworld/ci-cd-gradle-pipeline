@@ -31,8 +31,19 @@ pipeline{
                               }
                         }
                     }
-                }
-            }
+                 }
+             }
+            stage('Deploying application on k8s cluster') {
+                steps {
+                   script{
+                       withCredentials([string(credentialsId: 'nexus-docker-passed', variable: 'nexus-docker-password')]) {
+                            dir('kubernetes/') {
+                              sh 'helm upgrade --install --set image.repository="34.125.49.91:8085/springapp" --set image.tag="${VERSION}" myjavaapp myapp/ '
+                            }
+                        }
+                   }
+                 }
+             }
 
       }
 
