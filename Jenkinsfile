@@ -4,7 +4,7 @@ pipeline{
         VERSION = "${env.BUILD_ID}"
     }
     stages{
-        stage("Docker Build & Docker Push To Nexus Repo"){
+        stage("Docker Build & Docker Push To Nexus repository"){
             steps{
                 script{
                     withCredentials([string(credentialsId: 'docker_pass', variable: 'docker_password')]) {
